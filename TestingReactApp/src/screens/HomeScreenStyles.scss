@@ -1,0 +1,96 @@
+
+$backgroundColor : white;
+$fontSize : ("H1" : 28, 
+            "H2" : 25, 
+            "H3" : 22,
+            "H4" : 20,
+            "H5" : 18,
+            "H6" : 16,
+            "H7" : 14,
+            "H8" : 12,
+            "H9" : 10);
+$width : 300;
+
+@mixin common($width, $marginBottom) {
+    width: $width;
+    margin-bottom: $marginBottom;
+}
+
+@mixin red_color($property) {
+    @if $property != color and $property != background-color {
+        @error "Property #{$property} must be either color or background Color.";
+    }
+    @else {
+        #{$property} : red
+    }
+}
+
+.container {
+    background-color: $backgroundColor;
+    flex : 1;
+    justify-content: center;
+    align-items: center;
+    @warn "This is warning";
+}
+
+.text {
+    @include common($width, 10);
+    text-align: center;
+
+    &_welcome_back {
+        @extend .text;
+        font-size: map-get($fontSize, H1 );
+        color: #22272A;
+        font-weight: bold;
+    }
+
+    &_description {
+        @extend .text;
+        font-size: map-get($fontSize, H7 );
+        color: #37465A;
+    }
+}
+
+// mixin
+// @mixin txt($property, $value) {
+//     #{$property} : $value
+// }
+
+.textinput {
+    @include common($width, 20);
+    border: grey;
+    margin-top : 20;
+    padding-left : 15;
+    padding-right: 15;
+}
+
+@function pow($base, $exponent) {
+    $result: 1;
+    @for $_ from 1 through $exponent {
+      $result: $result * $base;
+    }
+    @return $result;
+}
+
+@mixin text($size) {
+    align-self: flex-start;
+    margin-left: pow(5, 2) * 1px;
+    @if $size == 'big' {
+        @include red_color(background-color);
+        font-size : map-get($fontSize, 'H3' )
+    } @else {
+        color: green;
+        font-size : map-get($fontSize, 'H6' )
+    }
+}
+
+.bridgelabz_text {
+    @include text('big')
+}
+
+.hello_world_text {
+    @include text('small')
+}
+ 
+
+
